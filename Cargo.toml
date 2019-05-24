@@ -5,9 +5,4 @@ edition = "2018"
 authors = ["airt <airtial@gmail.com>"]
 
 [dependencies]
-
-[profile.dev]
-panic = "abort"
-
-[profile.release]
-panic = "abort"
+bootloader = "0.6"

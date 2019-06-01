@@ -4,25 +4,22 @@
 #![test_runner(micox::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use micox::println;
+use micox::{println, serial_print, serial_println};
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-  println!("Hello World");
-  #[cfg(test)]
   test_main();
   loop {}
 }
 
-#[cfg(not(test))]
-#[panic_handler]
-fn panic(info: &::core::panic::PanicInfo) -> ! {
-  println!("{}", info);
-  loop {}
-}
-
-#[cfg(test)]
 #[panic_handler]
 fn panic(info: &::core::panic::PanicInfo) -> ! {
   micox::test_panic_handler(info)
+}
+
+#[test_case]
+fn test_println() {
+  serial_print!("test_println... ");
+  println!("test_println output");
+  serial_println!("[ok]");
 }

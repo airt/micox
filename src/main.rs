@@ -13,14 +13,14 @@ pub extern "C" fn _start() -> ! {
   #[cfg(test)]
   test_main();
   println!("It did not crash!");
-  loop {}
+  micox::hlt_loop();
 }
 
 #[cfg(not(test))]
 #[panic_handler]
 fn panic(info: &::core::panic::PanicInfo) -> ! {
   println!("{}", info);
-  loop {}
+  micox::hlt_loop();
 }
 
 #[cfg(test)]

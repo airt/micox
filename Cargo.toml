@@ -14,18 +14,25 @@ harness = false
 
 [dependencies]
 bootloader = { version = "0.9", features = ["map_physical_memory"] }
-linked_list_allocator = "0.8"
+linked_list_allocator = "0.9"
 pc-keyboard = "0.5"
-pic8259_simple = "0.2"
+pic8259 = "0.10"
 spin = "0.5"
 uart_16550 = "0.2"
 volatile = "0.2"
-x86_64 = "0.13"
+x86_64 = "0.14"
 
 [dependencies.lazy_static]
 version = "1.0"
 features = ["spin_no_std"]
 
 [package.metadata.bootimage]
-test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio", "-display", "none"]
+test-args = [
+  "-device",
+  "isa-debug-exit,iobase=0xf4,iosize=0x04",
+  "-serial",
+  "stdio",
+  "-display",
+  "none"
+]
 test-success-exit-code = 33

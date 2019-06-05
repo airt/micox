@@ -4,7 +4,7 @@
 #![test_runner(micox::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use micox::{println, serial_print, serial_println};
+use micox::println;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
@@ -19,7 +19,5 @@ fn panic(info: &::core::panic::PanicInfo) -> ! {
 
 #[test_case]
 fn test_println() {
-  serial_print!("test_println... ");
   println!("test_println output");
-  serial_println!("[ok]");
 }

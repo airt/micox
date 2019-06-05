@@ -15,18 +15,27 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v1
+      - run: sudo apt update && sudo apt install qemu-system-x86
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
           toolchain: nightly
           components: clippy, rustfmt, rust-src, llvm-tools-preview
-      - run: sudo apt update
-      - run: sudo apt install qemu-system-x86
-      - run: cargo install cargo-xbuild
-      - run: cargo install bootimage
-      - run: cargo fmt -- --check
-      - run: cargo xclippy
-      - run: cargo xtest
-      - run: cargo xbuild
-      - run: cargo bootimage
+      - uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: bootimage --debug
+      - uses: actions/checkout@v2
+      - uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+      - uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+      - uses: actions-rs/cargo@v1
+        with:
+          command: bootimage

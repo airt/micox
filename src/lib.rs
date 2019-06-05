@@ -2,8 +2,7 @@
 #![cfg_attr(test, no_main)]
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
-#![feature(const_fn)]
-#![feature(const_in_array_repeat_expressions)]
+#![feature(const_mut_refs)]
 #![feature(custom_test_frameworks)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
@@ -24,10 +23,25 @@ pub fn init() {
   x86_64::instructions::interrupts::enable();
 }
 
-pub fn test_runner(tests: &[&dyn Fn()]) {
+pub trait Testable {
+  fn run(&self);
+}
+
+impl<T> Testable for T
+where
+  T: Fn(),
+{
+  fn run(&self) {
+    serial_print!("{}...\t", core::any::type_name::<T>());
+    self();
+    serial_println!("[ok]");
+  }
+}
+
+pub fn test_runner(tests: &[&dyn Testable]) {
   serial_println!("Running {} tests", tests.len());
   for test in tests {
-    test();
+    test.run();
   }
   exit_qemu(QemuExitCode::Success);
 }

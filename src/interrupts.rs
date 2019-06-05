@@ -1,7 +1,6 @@
 use crate::{gdt, hlt_loop, print, println};
 use lazy_static::lazy_static;
 use pic8259_simple::ChainedPics;
-use spin;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
 pub const PIC_1_OFFSET: u8 = 32;
@@ -115,12 +114,7 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: &mut Interrup
   }
 }
 
-#[cfg(test)]
-use crate::{serial_print, serial_println};
-
 #[test_case]
 fn test_breakpoint_exception() {
-  serial_print!("test_breakpoint_exception... ");
   x86_64::instructions::interrupts::int3();
-  serial_println!("[ok]");
 }

@@ -7,27 +7,24 @@
 ```bash
 brew install qemu
 cargo install bootimage
-cargo install cargo-xbuild
-rustup component add rust-src
-rustup component add llvm-tools-preview
+rustup component add rust-src llvm-tools-preview
 ```
 
 ## Testing
 
 ```bash
-cargo xtest
+cargo test
 ```
 
 ## Running
 
 ```bash
-cargo xrun
+cargo run
 ```
 
 ## Building
 
 ```bash
-cargo xbuild
 cargo bootimage
 ```
 
